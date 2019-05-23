@@ -41,6 +41,27 @@ findAutomovel n | n == getCodig carro1 = getCodig carro1
                 | otherwise = error "Codigo do Automovel Não existe"
 
 findPrice :: Int -> [(Automovel)]-> Float 
+findPrice cod [] = error " Nenhum Automovel encontrado "
 findPrice  cod (cabeca: corpo ) =  if  getCodig cabeca == cod
                                         then  getPrice cabeca
-                                            else findPrice cod corpo                                                                    
+                                            else findPrice cod corpo
+
+findprice :: [Int] -> [Automovel]->[Float]
+findprice  [] lista = []
+findprice (x:xs) (cabeca:corpo) | getCodig cabeca == x = precos 
+                                | otherwise = findprice xs corpo 
+                                 where precos = [getPrice cabeca] 
+
+
+listaAutomoveis ::[Automovel]->IO() 
+listaAutomoveis [] = putStrLn" " 
+listaAutomoveis ((a,b,c,d,e,f):xs) =do 
+                                putStrLn (show(a)++"     "++show(b)++"       "++show(c)++"   "++show(d)++"       "++show(e)++"   "++show(f))
+                                listaAutomoveis xs 
+
+
+listItems::[Int]->[Automovel]->Float
+listItems [] artigos = 0.0 
+listItems  (x:xs) artigos | artigos /= [] = total 
+                          | otherwise = listItems xs  artigos 
+                          where total = sum [findPrice x artigos]+ listItems  xs artigos  
