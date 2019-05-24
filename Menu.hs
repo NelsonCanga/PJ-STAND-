@@ -36,9 +36,7 @@ findFacturaDay  factura = do
         d <- getLine 
         facDay d factura
 
-
 --Menu para a funcão compra --
-
 menuCompra :: Facturas->IO()
 menuCompra facturas = do 
         let codfactura = (length facturas )+1
@@ -47,19 +45,19 @@ menuCompra facturas = do
         nome <-getLine 
         putStrLn "Informe o numero de Telefone: "
         phone <-readLn :: IO Int 
-        putStrLn "Informe o codigo(s)do Automovel: "
-        cod <- readLn :: IO Int 
-        let valor = findPrice cod automoveis
-        putStrLn ("Preço: "++show (valor)++" AKZ")
-        putStrLn "Informe a quantidade: "
-        qtd <- readLn :: IO Float
-        let  total = ((findPrice cod automoveis)*qtd)
+        putStrLn "Informe o codigo(s) []: "
+        cod <- readLn :: IO [Int]
+        putStrLn "informe as Quantidades dos produtos []: "
+        qtd <- readLn :: IO [Float]
+        let valor =allprice cod automoveis
+        putStrLn ("Os preços : "++show(allprice cod automoveis))
+        let  total = listItems cod qtd automoveis 
         putStrLn ("Preço a pagar : "++show (total)++" AKZ")
         valorPago <- readLn :: IO Float
         let troco = (valorPago - total)
         if(valorPago >=  total) then do {
         variavel <-getCurrentTime; putStrLn ("Troco: "++show(troco)++"    Data Compra :"++(take 19 (show(variavel)))++"  Codigo Factura:"++show(codfactura));
-        inserir (facturas++facturaCliente (codfactura,nome,phone,cod,qtd,valor,valorPago,troco,(take 19(show(variavel)))));
+        inserir(facturas++facturaCliente (codfactura,nome,phone,cod,qtd,valor,valorPago,troco,(take 19(show(variavel)))));
                 
         }
                else do { putStrLn " Valor Insuficiente"; menuPrincipal facturas }          
@@ -123,8 +121,11 @@ menuPrincipal  factura = do
                         menuPrincipal factura;
                  }
          6 -> do putStrLn "Ver Todas Facturas"
-                 putStrLn "Codigo Cliente          Phone       CodProduto    Qtd PreçoProd  Pago Troco Data   "
                  carregarFactura
+                 putStrLn "1-Para voltar a ver as Facturas\n2-Para voltar ao Menu "
+                 op <- readLn  :: IO Int 
+                 if (op == 1 ) then carregarFactura else if(op== 2 )then  menuPrincipal factura else do { putStrLn "opção Invalida "; menuPrincipal factura }
+
          7 -> do putStrLn "Mostra as informacoes do Automovel mais vendido"
          8 -> do putStrLn "Terminando o Programa ...Volte Sempre "
          _ -> do{ putStrLn "Opcão Invalida "; menuPrincipal factura}
