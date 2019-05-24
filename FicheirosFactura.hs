@@ -20,9 +20,9 @@ inserir factura = do
 
 showAllfactura :: Facturas -> IO()
 showAllfactura [] =  putStrLn ""
-showAllfactura ((a,b,c,d,e,f,g,h,i):xs)= do   
-                                         putStrLn (show(a)++"     "++show(b)++"               "++show(c)++"          "++show(d)++"       "++show(e)++" "++show(f)++" "++show(g)++" "++show(h)++" "++show(i))
-                                         showAllfactura xs 
+showAllfactura ((a,b,c,d,e,f,g,h,i):xs)= do {putStrLn (show(a)++show(b)++show(c)++
+show(d)++show(e)++show(f)++show(g)++show(h)++show(i));                                      
+                                         showAllfactura xs } 
  -- Fazer a função para pegar o dia da factura --
 
  
