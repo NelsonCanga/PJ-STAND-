@@ -25,10 +25,12 @@ mota3:: Automovel
 mota3 =("JOG",3,120000.0,Amador,Honda,Mota) 
 carro1:: Automovel 
 carro1 = ("I10",4,150.0,Amador,BMW,Carro)
+carro2:: Automovel 
+carro2 = ("I10",5,200.0,Amador,BMW,Carro)
 
 
 automoveis :: [Automovel] 
-automoveis =[mota1,mota2,mota3,carro1]
+automoveis =[mota1,mota2,mota3,carro1,carro2]
 
 getPrice :: Automovel -> Float 
 getPrice (_,_,xs,_,_,_) = xs  
@@ -60,8 +62,14 @@ listaAutomoveis ((a,b,c,d,e,f):xs) =do
                                 listaAutomoveis xs 
 
 
-listItems::[Int]->[Automovel]->Float
-listItems [] artigos = 0.0 
-listItems  (x:xs) artigos | artigos /= [] = total 
-                          | otherwise = listItems xs  artigos 
-                          where total = sum [findPrice x artigos]+ listItems  xs artigos  
+listItems::[Int]->[Float]->[Automovel]->Float
+listItems [] [] artigos = 0.0 
+listItems  (x:xs) (a:b) artigos | artigos /= [] = total 
+                          | otherwise = listItems xs b artigos 
+                          where total = sum [(findPrice x artigos)*a]+ listItems  xs b artigos
+                          
+allprice :: [Int] ->[Automovel] -> [Float]
+allprice [] artigos = []
+allprice (x:xs) artigos | artigos /= [] = precos 
+                        | otherwise = allprice xs artigos 
+                         where precos = [findPrice x artigos ] ++ allprice xs artigos
