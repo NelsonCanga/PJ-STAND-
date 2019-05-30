@@ -1,5 +1,5 @@
 # PJ-STAND-
-Nota : o arquivo em zip Ficheiros é uma pasta onde tem os ficheiros txt para onde são gurdados os dados da aplicação .
+Nota :os ficheiros *txt devem estar em uma pasta com o nome Ficheiros 
 
 
 para iniciar a aplicação deve ter o ghci instalado 
