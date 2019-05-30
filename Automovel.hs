@@ -73,3 +73,7 @@ allprice [] artigos = []
 allprice (x:xs) artigos | artigos /= [] = precos 
                         | otherwise = allprice xs artigos 
                          where precos = [findPrice x artigos ] ++ allprice xs artigos
+
+showAtributos :: Int -> [Automovel]->IO()               
+showAtributos cod (cabeca@(a,b,c,d,e,f):corpo) = do if (cod == b ) then do {  putStrLn  ("\nNome:"++show(a)++"\n\nCodigo:"++show(b)++"\n\nPreço:"++show(c)++"\n\nCategoria:"++show(d)++"\n\nMarca: "++show(e)++"\n\nTipo:"++show(f)); }
+                                                        else showAtributos cod corpo 
