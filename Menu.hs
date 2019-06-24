@@ -8,9 +8,10 @@ import Automovel
 import FicheirosFactura
 import Cliente 
 
+
 carregarFactura:: IO()
 carregarFactura = do
-            file <- openFile  "Ficheiros /Factura_todas.txt" ReadMode 
+            file <- openFile  "Ficheiros/Factura_todas.txt" ReadMode 
             dados <- hGetContents file
             let factura = read (dados) :: Facturas 
             showAllfactura factura
@@ -18,10 +19,21 @@ carregarFactura = do
 
 carregar :: IO()
 carregar = do
-            file <- openFile  "Ficheiros /Factura_todas.txt" ReadMode 
+            file <- openFile  "Ficheiros/Factura_todas.txt" ReadMode 
             dados <- hGetContents file
             let factura = read (dados) :: Facturas 
+            estatistica (show(length (factura)))
             menuPrincipal (factura)
+            hClose file
+
+        
+
+carregarConsult :: IO()
+carregarConsult = do
+            file <- openFile  "Ficheiros/Factura_todas.txt" ReadMode 
+            dados <- hGetContents file
+            let factura = read (dados) :: Facturas 
+            findFacturaCod (factura)
             hClose file
 
 
@@ -36,6 +48,7 @@ findFacturaDay  factura = do
         putStrLn "Informe o dia que deseja "
         d <- getLine 
         facDay d factura
+
 vendedor ::Int-> String
 vendedor cod | (cod == 1) = "Paulino"
              | (cod== 2) = "Jonas"
@@ -118,11 +131,12 @@ menuPrincipal  factura = do
                  if(opcao == 1 ) then menuPrincipal factura else carregar 
         
          4 -> do putStrLn "Consultar Factura\n"
-                 findFacturaCod  factura   
+                 
+                 carregarConsult   
                  putStrLn "1->para consultar novamente \n2->para voltar ao menu Principal "
                  op <- readLn :: IO Int 
-                 if(op== 1) then findFacturaCod  factura else if (op==2) then menuPrincipal factura else do {
-                  putStrLn "Opção Invalida "; findFacturaCod  factura;
+                 if(op== 1) then carregarConsult else if (op==2) then menuPrincipal factura else do {
+                  putStrLn "Opção Invalida "; carregarConsult;
                  }
          5 -> do putStrLn "Ver Factura Diário"
                  findFacturaDay factura 
